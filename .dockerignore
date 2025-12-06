@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+client/node_modules
+apiserver/node_modules
+build
+client/build
+.DS_Store
+.env
+apiserver/.config.env
+npm-debug.log

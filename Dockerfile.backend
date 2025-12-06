@@ -1,0 +1,28 @@
+# Stage 1 — install production dependencies
+FROM node:18-alpine AS deps
+WORKDIR /usr/src/app
+COPY apiserver/package*.json ./
+RUN npm ci --production
+
+# Stage 2 — copy app sources (and optionally run build)
+FROM node:18-alpine AS builder
+WORKDIR /usr/src/app
+# bring production node_modules from deps stage
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+# copy backend source
+COPY apiserver/ ./
+# ensure upload folders exist
+RUN mkdir -p images/profile
+# if a build script exists, run it (no-op if none)
+RUN if [ -f package.json ] && grep -q "\"build\"" package.json; then npm run build; fi
+
+# Stage 3 — runtime image
+FROM node:18-alpine AS runtime
+WORKDIR /usr/src/app
+ENV NODE_ENV=production
+
+# copy built app and node_modules from builder
+COPY --from=builder /usr/src/app ./
+
+EXPOSE 5000
+CMD ["node", "index.js"]

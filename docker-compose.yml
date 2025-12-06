@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-appdb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"   # changed host port to 5433
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    env_file:
+      - ./apiserver/.config.env
+    environment:
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_NAME=${POSTGRES_DB}
+      - SESSION_ENCRYPT_SECRET=${SESSION_ENCRYPT_SECRET}
+      - SESSION_ALGORITHM=${SESSION_ALGORITHM}
+      - JWT_SESSION_SECRET=${JWT_SESSION_SECRET}
+      - JWT_VERIFY_SECRET=${JWT_VERIFY_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - PASSWORD_HASH_CYCLE=${PASSWORD_HASH_CYCLE}
+    depends_on:
+      - db
+    volumes:
+      - ./apiserver/images:/usr/src/app/images
+      - ./apiserver:/usr/src/app
+      - backend_node_modules:/usr/src/app/node_modules
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  backend_node_modules:
