@@ -164,8 +164,8 @@ Kubernetes provides production-grade orchestration with scaling, self-healing, a
 
 1. **Create namespace**:
    ```bash
-   kubectl create namespace skillshare-dev
-   kubectl config set-context --current --namespace=skillshare-dev
+   kubectl create namespace dev
+   kubectl config set-context --current --namespace=dev
    ```
 
 2. **Configure secrets** (base64 encoded):
