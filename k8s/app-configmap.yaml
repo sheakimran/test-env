@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: dev
+data:
+  # API Configuration
+  API_URL_PROD: https://api.durmusdemirtas.com
+  API_URL_TEST: https://apitest.durmusdemirtas.com
+  API_VERSION: v1
+  
+  # Client URLs
+  CLIENT_URL_DEV: http://node-react.local
+  CLIENT_URL_PROD: https://durmusdemirtas.com
+  CLIENT_URL_TEST: https://test.durmusdemirtas.com
+  
+  # Database Configuration (Cluster)
+  DB_HOST: db
+  DB_WRITE_HOST: postgres-primary-0.postgres-primary.dev.svc.cluster.local
+  DB_READ_HOST: postgres-replica-0.postgres-replica.dev.svc.cluster.local
+  DB_NAME: sampledb
+  DB_PORT: "5432"
+  
+  # Redis Configuration
+  REDIS_HOST: redis.dev.svc.cluster.local
+  REDIS_PORT: "6379"
+  
+  # RabbitMQ Configuration
+  RABBITMQ_HOST: rabbitmq.dev.svc.cluster.local
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_MANAGEMENT_PORT: "15672"
+  
+  # Elasticsearch Configuration
+  ELASTICSEARCH_HOST: elasticsearch.dev.svc.cluster.local
+  ELASTICSEARCH_PORT: "9200"
+  
+  # Application Configuration
+  NODE_ENV: development
+  PORT_DEV: "8010"
+  PORT_PROD: "8000"
+  PORT_TEST: "8011"
+  IMAGES_DIR: images

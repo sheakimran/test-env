@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db  # Change this from 'postgres' to 'db'
+  namespace: dev
+spec:
+  selector:
+    app: postgres  # Keep this matching your StatefulSet labels
+  ports:
+    - port: 5432
+      targetPort: 5432
