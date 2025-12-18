@@ -50,7 +50,7 @@ POSTGRES_PASSWORD=#######
 NODE_ENV=production
 API_PORT=5000
 JWT_SECRET=your-256-bit-secret
-DATABASE_URL=postgresql://admin:securepassword123@postgres:5432/skillshare
+DATABASE_URL=postgresql://#####:#######@postgres:5432/skillshare
 
 # Frontend
 REACT_APP_API_URL=http://localhost:5000
