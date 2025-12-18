@@ -43,8 +43,8 @@ Create a `.env` file in the project root:
 ```env
 # Database
 POSTGRES_DB=skillshare
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=securepassword123
+POSTGRES_USER=######
+POSTGRES_PASSWORD=#######
 
 # Backend
 NODE_ENV=production
